@@ -41,8 +41,9 @@ function validateContactData(array $data): ?string
     return null;
 }
 
+//---------------------------------------------------------------------------------
 $http = new HttpServer(function (ServerRequestInterface $request) use ($db) {
-    $path = $request->getUri()->getPath();
+    $path = $request->getUri()->getPath(); // Obtiene la ruta solicitada
     
     // Manejo de CORS para las peticiones AJAX
     if (strpos($path, '/api/') === 0) {
@@ -58,10 +59,10 @@ $http = new HttpServer(function (ServerRequestInterface $request) use ($db) {
     }
     
     switch ($path) {
-        case '/':
+        case '/': // Ruta de inicio
             return serveStaticFile('/index.html', 'text/html');
             
-        case '/contact':
+        case '/contact':   // Ruta de contacto
             if ($request->getMethod() === 'POST') {
                 $data = $request->getParsedBody();
                 
@@ -79,11 +80,7 @@ $http = new HttpServer(function (ServerRequestInterface $request) use ($db) {
                     [$name, $email, $message]
                 );
                 
-                return new Response(
-                    200, 
-                    ['Content-Type' => 'text/html'], 
-                    'Gracias por contactarnos, ' . $name . '!'
-                );
+        
             }
             return serveStaticFile('/contact.html', 'text/html');
             

@@ -16,6 +16,8 @@
         </nav>
     </header>
     <main>
+
+    <!--------------------------->
         <div class="crud-container">
             <div class="table-responsive">
                 <table id="contacts-table">
@@ -30,11 +32,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Los datos se insertarán aquí dinámicamente -->
+                        <!-- Los datos se insertarán aquí-->
                     </tbody>
                 </table>
             </div>
 
+
+
+             <!-- Formulario de edición-->
             <div class="edit-modal" id="edit-modal">
                 <div class="modal-content">
                     <span class="close-btn" id="close-modal">&times;</span>
@@ -58,36 +63,29 @@
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                             <button type="button" class="btn btn-secondary" id="cancel-edit">Cancelar</button>
+                         <!------->
+
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </main>
-    <script>
-        // DOM Elements
-        const contactsTable = document.getElementById('contacts-table').getElementsByTagName('tbody')[0];
-        const editModal = document.getElementById('edit-modal');
-        const editForm = document.getElementById('edit-form');
-        const closeModalBtn = document.getElementById('close-modal');
-        const cancelEditBtn = document.getElementById('cancel-edit');
 
+    <script>
         // Cargar datos al iniciar
         document.addEventListener('DOMContentLoaded', loadContacts);
 
-        // Manejar cierre del modal
-        closeModalBtn.addEventListener('click', closeModal);
-        cancelEditBtn.addEventListener('click', closeModal);
+        // DOM Elements
+        const contactsTable = document.getElementById('contacts-table').getElementsByTagName('tbody')[0]; //actualizar tabla
+        const editModal = document.getElementById('edit-modal'); //visivilidad Crud
+        const editForm = document.getElementById('edit-form'); //envio form
+       
+       
 
-        // Cerrar modal al hacer clic fuera del contenido
-        editModal.addEventListener('click', function(e) {
-            if (e.target === editModal) {
-                closeModal();
-            }
-        });
 
-        // Manejar envío del formulario de edición
-        editForm.addEventListener('submit', function(e) {
+        //formulario de edición
+            editForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const formData = {
@@ -97,13 +95,29 @@
                 message: document.getElementById('edit-message').value.trim()
             };
 
-            // Validación
+            // validación
             if (!validateForm(formData)) return;
 
             updateContact(formData);
         });
 
-        // Funciones CRUD
+
+        //cerrar crud
+        const closeModalBtn = document.getElementById('close-modal');
+        const cancelEditBtn = document.getElementById('cancel-edit');
+
+        // Manejar cierres
+        closeModalBtn.addEventListener('click', closeModal); //Cierre X
+        cancelEditBtn.addEventListener('click', closeModal); //Cierre cancelar
+        
+        editModal.addEventListener('click', function(e) { //Click externo 
+            if (e.target === editModal) {
+                closeModal();
+            }
+        });
+
+
+    //carga de datos
         function loadContacts() {
             fetch('/api/contacts')
                 .then(response => {
@@ -119,7 +133,12 @@
                 });
         }
 
+
+
+
+    //actualizacion de datos
         function updateContact(contactData) {
+
             fetch('/api/contacts', {
                 method: 'PUT',
                 headers: {
@@ -127,23 +146,30 @@
                 },
                 body: JSON.stringify(contactData)
             })
+
             .then(response => {
                 if (!response.ok) throw new Error('Error al actualizar contacto');
                 return response.json();
             })
+
             .then(updatedContact => {
                 loadContacts();
                 closeModal();
                 showAlert('success', 'Contacto actualizado exitosamente');
             })
+s
             .catch(error => {
                 console.error('Error:', error);
                 showAlert('error', 'Error al actualizar contacto: ' + error.message);
             });
         }
+        
 
+    //Borrar datos
         function deleteContact(id) {
+
             if (!confirm('¿Estás seguro de que quieres eliminar este contacto?')) return;
+
 
             fetch('/api/contacts', {
                 method: 'DELETE',
@@ -152,21 +178,27 @@
                 },
                 body: JSON.stringify({ id })
             })
+         
             .then(response => {
                 if (!response.ok) throw new Error('Error al eliminar contacto');
                 return response.json();
             })
+        
             .then(() => {
                 loadContacts();
                 showAlert('success', 'Contacto eliminado exitosamente');
             })
+        
             .catch(error => {
                 console.error('Error:', error);
                 showAlert('error', 'Error al eliminar contacto: ' + error.message);
             });
         }
+        //------------------------------------------------------------------------------
 
-        // Funciones de ayuda
+
+
+        //Generar tablas
         function renderContacts(contacts) {
             contactsTable.innerHTML = contacts.map(contact => `
                 <tr data-id="${contact.id}">
@@ -187,6 +219,8 @@
             `).join('');
         }
 
+
+        //Prepara el formulario de edición
         function openEditModal(id, name, email, message) {
             document.getElementById('edit-id').value = id;
             document.getElementById('edit-name').value = name;
@@ -204,10 +238,14 @@
             editModal.style.display = 'none';
         }
 
+
+
+
+
+     //Validacion del formulario------------
         function validateForm(data) {
             let isValid = true;
             
-            // Limpiar errores
             document.getElementById('edit-name-error').textContent = '';
             document.getElementById('edit-email-error').textContent = '';
             
@@ -227,6 +265,7 @@
             return isValid;
         }
 
+        
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(email);
@@ -249,6 +288,12 @@
                 setTimeout(() => alert.remove(), 500);
             }, 3000);
         }
+
+
+
+
+
+
 
         function escapeHtml(unsafe) {
             return unsafe

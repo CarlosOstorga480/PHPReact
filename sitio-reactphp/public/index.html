@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio - Sitio ReactPHP</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/team.css">
 </head>
 <body>
     <header>
-        <h1>Bienvenido a nuestro sitio</h1>
+        <h1>Sitio de Contactos</h1>
         <nav>
             <a href="/">Inicio</a> |
             <a href="/contact">Contacto</a> |
@@ -16,7 +17,42 @@
         </nav>
     </header>
     <main>
-        <p>Este es un sitio web dinámico construido con ReactPHP.</p>
+  
+        
+        <section class="team-section">
+            <h2>Nuestro Equipo</h2>
+            <div class="team-container" id="team-members">
+                <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
+            </div>
+        </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const teamMembers = [
+                { name: "Levi Asael Palacios Méndez", id: "PM241595" },
+                { name: "Diego Fernando Ruiz Valle", id: "RV232739" },
+                { name: "Carlos David Ostorga Gálvez", id: "OG232730" },
+                { name: "Norman Enmanuel Quijano Amaya", id: "QA240640" },
+                { name: "Cristian Alexis Diaz Ramos", id: "DR231900" }
+            ];
+
+            const container = document.getElementById('team-members');
+            
+            teamMembers.forEach(member => {
+                const card = document.createElement('div');
+                card.className = 'team-card';
+                card.innerHTML = `
+                    <div class="team-card-header">
+                        <span class="team-id">${member.id}</span>
+                    </div>
+                    <div class="team-card-body">
+                        <h3>${member.name}</h3>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        });
+    </script>
 </body>
 </html>

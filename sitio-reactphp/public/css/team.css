@@ -1,0 +1,91 @@
+/* Estilos específicos para la sección de equipo */
+.team-section {
+    margin-top: 4rem;
+    padding: 2rem 0;
+    border-top: 1px solid #e1e1e1;
+}
+
+.team-section h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.team-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 0 1rem;
+}
+
+.team-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.team-card-header {
+    background-color: #2c3e50;
+    padding: 1rem;
+    color: white;
+}
+
+.team-id {
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #ecf0f1;
+    font-size: 0.9rem;
+}
+
+.team-card-body {
+    padding: 1.5rem;
+}
+
+.team-card-body h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+/* Efecto de hover para mantener consistencia con nav */
+.team-card {
+    transition: all 0.3s ease;
+}
+
+.team-card:hover .team-card-header {
+    background-color: #3498db;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .team-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-card-body h3 {
+        font-size: 1rem;
+    }
+    
+    .team-card-header {
+        padding: 0.8rem;
+    }
+    
+    .team-card-body {
+        padding: 1rem;
+    }
+}

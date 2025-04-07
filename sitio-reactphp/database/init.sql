@@ -1,5 +1,4 @@
 CREATE DATABASE IF NOT EXISTS sitio_reactphp;
-
 USE sitio_reactphp;
 
 CREATE TABLE IF NOT EXISTS contacts (
@@ -7,9 +6,12 @@ CREATE TABLE IF NOT EXISTS contacts (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     message TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ip_address VARCHAR(45),
+    user_agent VARCHAR(255)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO contacts (name, email, message) VALUES 
-('Juan Pérez', 'juan@example.com', 'Consulta sobre productos'),
-('María García', 'maria@example.com', 'Soporte técnico');
+-- Usuario con permisos limitados (seguridad)
+CREATE USER IF NOT EXISTS 'app_user'@'localhost' IDENTIFIED BY 'password_seguro';
+GRANT SELECT, INSERT ON sitio_reactphp.contacts TO 'app_user'@'localhost';
+FLUSH PRIVILEGES;

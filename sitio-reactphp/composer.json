@@ -9,6 +9,7 @@
     "require": {
         "react/http": "^1.11",
         "react/socket": "^1.16",
-        "react/mysql": "^0.6.0"
+        "react/mysql": "^0.6.0",
+        "vlucas/phpdotenv": "^5.6"
     }
 }
