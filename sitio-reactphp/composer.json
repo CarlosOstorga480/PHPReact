@@ -1,0 +1,14 @@
+{
+    "name": "user/sitio-reactphp",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "User\\SitioReactphp\\": "src/"
+        }
+    },
+    "require": {
+        "react/http": "^1.11",
+        "react/socket": "^1.16",
+        "react/mysql": "^0.6.0"
+    }
+}
